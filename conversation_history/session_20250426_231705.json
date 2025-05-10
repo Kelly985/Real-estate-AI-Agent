@@ -1,0 +1,26 @@
+[
+  {
+    "timestamp": "2025-04-26T23:17:13.539720",
+    "query": "What is your return policy?",
+    "response": "It seems like you didn't provide any information or ask a question. Could you please provide more details or clarify what you need help with? I'm here to assist you.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "3519e286-4c28-47fa-b135-13cad8a13894"
+  },
+  {
+    "timestamp": "2025-04-26T23:17:21.851986",
+    "query": "Tell me more about that policy.",
+    "response": "It looks like you haven't provided any information or question for me to help you with. Could you please provide more context or clarify what you need assistance with? I'll do my best to provide a helpful response.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "3519e286-4c28-47fa-b135-13cad8a13894"
+  },
+  {
+    "timestamp": "2025-04-26T23:17:36.618833",
+    "query": "",
+    "response": "It appears you haven't provided any information or question for me to assist with. Could you please provide more details or clarify how I can help you?",
+    "mode": "voice",
+    "feedback": null,
+    "context_id": "3519e286-4c28-47fa-b135-13cad8a13894"
+  }
+]
