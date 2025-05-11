@@ -1,0 +1,74 @@
+[
+  {
+    "timestamp": "2025-05-11T13:53:14.460067",
+    "query": "how can i verify documents using current tech on real estate",
+    "response": "I can help with real estate questions.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "49f8feae-7592-4072-b1b0-c1649d744edb"
+  },
+  {
+    "timestamp": "2025-05-11T13:53:22.572398",
+    "query": "mention 2 key trends in real-estate",
+    "response": "Two key trends in Kenya's real estate market are the rise of mixed-use developments, which combine residential, commercial, and recreational spaces, reducing the need for lengthy commutes, and the growing demand for affordable housing, particularly in urban areas, with prices ranging from KES 1.5 million to KES 4 million.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "49f8feae-7592-4072-b1b0-c1649d744edb"
+  },
+  {
+    "timestamp": "2025-05-11T13:53:29.463647",
+    "query": "how can i use ai in real estate, mention 2 ways",
+    "response": "You can use AI in real estate to enhance virtual property tours and predictive analytics. AI-powered tools create immersive virtual tours, allowing buyers to explore properties remotely. Additionally, AI analyzes market trends to predict property prices and demand, helping investors and agents make informed decisions.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "49f8feae-7592-4072-b1b0-c1649d744edb"
+  },
+  {
+    "timestamp": "2025-05-11T13:53:40.512141",
+    "query": "is it possible to have a virtual walk through of a property using ai",
+    "response": "Yes, it's possible to have a virtual walkthrough of a property using AI. AI tools create immersive, 360-degree virtual tours, allowing buyers to explore properties remotely. This technology is especially useful in Kenya's real estate market, where it helps buyers view homes without physical visits.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "49f8feae-7592-4072-b1b0-c1649d744edb"
+  },
+  {
+    "timestamp": "2025-05-11T13:53:44.832038",
+    "query": "name one tool i can use to do that",
+    "response": "You can use Matterport to create immersive 360-degree virtual property tours, allowing buyers to explore homes remotely.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "49f8feae-7592-4072-b1b0-c1649d744edb"
+  },
+  {
+    "timestamp": "2025-05-11T13:53:51.802012",
+    "query": "who founded matterport",
+    "response": "Matterport was founded by David Gausebeck, Matt Bell, and Mike Beebe in 2011. They created the platform to revolutionize virtual property tours using 3D technology.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "49f8feae-7592-4072-b1b0-c1649d744edb"
+  },
+  {
+    "timestamp": "2025-05-11T13:54:02.782126",
+    "query": "ok give me tips related to that",
+    "response": "Use AI tools like Matterport to create 360-degree virtual tours, enhancing property listings. Virtually stage empty spaces, highlight key features, and share tours with out-of-town buyers. Include a floor plan for clarity. This boosts engagement and streamlines the viewing process in Kenya's competitive market.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "49f8feae-7592-4072-b1b0-c1649d744edb"
+  },
+  {
+    "timestamp": "2025-05-11T13:54:09.565874",
+    "query": "am looking for a nice cosy house to rent in kenya, am alone and dont really need much space. what kind of house would you recommend",
+    "response": "I recommend a studio or one-bedroom apartment, perfect for a single person needing minimal space. These units are cost-effective and widely available in areas like Kileleshwa, Kilimani, or Westlands. Studio apartments range from KES 15,000-30,000/month, while one-bedroom apartments go for KES 20,000-40,000/month. Both options offer a cosy, convenient living space.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "49f8feae-7592-4072-b1b0-c1649d744edb"
+  },
+  {
+    "timestamp": "2025-05-11T13:54:17.921737",
+    "query": "what is the price range",
+    "response": "The price range for studio apartments in areas like Kileleshwa, Lavington, or Kilimani is KES 35,000 to KES 70,000 per month. One-bedroom apartments in the same areas range from KES 45,000 to KES 120,000 per month. Both options are great for a cosy, convenient living space.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "49f8feae-7592-4072-b1b0-c1649d744edb"
+  }
+]

@@ -2,12 +2,13 @@ import streamlit as st
 import sys
 import traceback
 import numpy as np
-import sounddevice as sd
 from datetime import datetime
 import logging
 from ai_agent import AudioHandler, AIAgent
 import pkg_resources
 import os
+import pydub
+import hashlib
 
 # Set up logging
 logging.basicConfig(
@@ -77,13 +78,17 @@ def initialize_session_state():
     default_state = {
         'agent': None,
         'audio': None,
-        'is_recording': False,
+        'is_processing': False,
         'conversation': [],
         'status': "Idle",
         'debug_mode': False,
         'initialized': False,
         'session_initialized': False,
-        'llm_logs': []
+        'llm_logs': [],
+        'last_audio_hash': None,  # Track hash of last processed audio
+        'uploader_key': 0,  # Dynamic key for file_uploader
+        'processed_files': set(),  # Track processed file hashes
+        'pending_audio': None  # Store audio file temporarily
     }
     for key, value in default_state.items():
         if key not in st.session_state:
@@ -131,7 +136,7 @@ def initialize_components():
         return True
     except Exception as e:
         st.error("### CRITICAL INITIALIZATION ERROR")
-        st.write("Ensure all dependencies are installed, microphone permissions are granted, and TOGETHER_API_KEY is set.")
+        st.write("Ensure all dependencies are installed and TOGETHER_API_KEY is set.")
         debug_mode = st.session_state.get('debug_mode', False)
         if debug_mode:
             st.code(traceback.format_exc(), language='python')
@@ -154,7 +159,7 @@ def main():
     import streamlit
     streamlit_version = streamlit.__version__
     if streamlit_version < "1.10.0":
-        st.error(f"Streamlit version {streamlit_version} is outdated. Please upgrade to 1.29.0: `pip install streamlit==1.29.0`")
+        st.error(f"Streamlit version {streamlit_version} is outdated. Please upgrade to 1.45.0: `pip install streamlit==1.45.0`")
         return
     
     try:
@@ -170,7 +175,7 @@ def main():
         
         if st.session_state.get('debug_mode', False):
             st.write("#### Dependency Versions")
-            deps = ['streamlit', 'torch', 'faster_whisper', 'sentence_transformers', 'together', 'pillow', 'backoff', 'sounddevice', 'numpy', 'pyttsx3']
+            deps = ['streamlit', 'torch', 'faster_whisper', 'sentence_transformers', 'together', 'pillow', 'backoff', 'numpy', 'gTTS', 'pydub']
             versions = {}
             for dep in deps:
                 try:
@@ -182,18 +187,10 @@ def main():
         
         try:
             import numpy as np
-            import sounddevice as sd
+            import pydub
             from ai_agent import AudioHandler, AIAgent
-            devices = sd.query_devices()
-            logger.info(f"Available audio devices at startup: {devices}")
         except ImportError as e:
             st.error("Missing critical dependencies. Run `pip install -r requirements.txt`.")
-            debug_mode = st.session_state.get('debug_mode', False)
-            if debug_mode:
-                st.code(traceback.format_exc(), language='python')
-            return
-        except Exception as e:
-            st.error("Failed to initialize audio devices. Ensure a microphone is connected.")
             debug_mode = st.session_state.get('debug_mode', False)
             if debug_mode:
                 st.code(traceback.format_exc(), language='python')
@@ -237,7 +234,7 @@ def show_main_interface(agent, audio):
                 f'<div class="customer-message"><b>{entry["timestamp"]} - You</b><br>{query_prefix}{entry["query"]}</div>',
                 unsafe_allow_html=True
             )
-            response_suffix = " (TTS Played)" if entry.get("tts_played", False) else " (TTS Failed)" if entry["mode"] == "voice" else ""
+            response_suffix = " (Audio Played)" if entry.get("tts_played", False) else " (Audio Failed)" if entry["mode"] == "voice" else ""
             st.markdown(
                 f'<div class="agent-message"><b>{entry["timestamp"]} - Comfy AI</b><br>{entry["response"]}{response_suffix}</div>',
                 unsafe_allow_html=True
@@ -252,46 +249,46 @@ def show_main_interface(agent, audio):
         status_container = st.empty()
         status_container.write(f"**Status**: {st.session_state.status}")
         
-        if st.button("Test Microphone", key="test_mic"):
-            try:
-                devices = sd.query_devices()
-                logger.info(f"Test microphone - Available audio devices: {devices}")
-                audio_data = audio.record_audio(duration=1.0)
-                st.success(f"Microphone detected! Recorded {len(audio_data)} samples.")
-            except Exception as e:
-                st.error(f"Microphone test failed: {str(e)}")
-                logger.error(f"Microphone test error: {str(e)}")
-                if st.session_state.get('debug_mode', False):
-                    st.code(traceback.format_exc(), language='python')
+        # Use dynamic key to reset file_uploader
+        uploader_key = f"audio_upload_{st.session_state.uploader_key}"
+        audio_file = st.file_uploader(
+            "Upload an audio file (WAV or MP3)",
+            type=["wav", "mp3"],
+            key=uploader_key
+        )
         
-        try:
-            devices = sd.query_devices()
-            logger.info(f"Voice mode - Available audio devices: {devices}")
-        except Exception as e:
-            st.error("Microphone not detected. Please ensure a microphone is connected and permissions are granted.")
-            st.session_state.status = "Microphone Error"
-            status_container.write(f"**Status**: {st.session_state.status}")
-            logger.error(f"Microphone detection error: {str(e)}")
-            if st.session_state.get('debug_mode', False):
-                st.code(traceback.format_exc(), language='python')
-            return
-        
-        if 'is_recording' not in st.session_state:
-            st.session_state.is_recording = False
-            logger.warning("Manually initialized is_recording")
-        
-        if st.button("Speak", key="speak_button", help="Click to record for 6 seconds"):
-            if not st.session_state.is_recording:
-                st.session_state.is_recording = True
-                st.session_state.status = "Recording..."
+        if audio_file and not st.session_state.is_processing:
+            # Compute file hash to identify unique files
+            audio_data = audio_file.read()
+            audio_hash = hashlib.md5(audio_data).hexdigest()
+            audio_file.seek(0)  # Reset file pointer
+            logger.debug(f"Computed audio hash: {audio_hash}, Last hash: {st.session_state.last_audio_hash}")
+            
+            if audio_hash not in st.session_state.processed_files and audio_hash != st.session_state.last_audio_hash:
+                st.session_state.is_processing = True
+                st.session_state.status = "Processing..."
                 status_container.write(f"**Status**: {st.session_state.status}")
-                record_and_process(agent, audio, status_container)
+                st.session_state.last_audio_hash = audio_hash
+                st.session_state.processed_files.add(audio_hash)
+                st.session_state.pending_audio = audio_file  # Store file temporarily
+                # Increment uploader_key to reset uploader
+                st.session_state.uploader_key += 1
+                logger.debug(f"Incremented uploader_key to: audio_upload_{st.session_state.uploader_key}")
+                
+                # Process the audio file
+                record_and_process(agent, audio, status_container, st.session_state.pending_audio, audio_hash)
+            else:
+                logger.debug(f"Skipping already processed audio file with hash: {audio_hash}")
+                # Clear uploader by incrementing key
+                st.session_state.uploader_key += 1
+                logger.debug(f"Incremented uploader_key for skipped file to: audio_upload_{st.session_state.uploader_key}")
         
         if st.button("Clear Session State", key="clear_session"):
             for key in list(st.session_state.keys()):
                 del st.session_state[key]
             st.session_state.session_initialized = False
             st.session_state.llm_logs = []
+            st.session_state.processed_files = set()  # Reset processed files
             st.rerun()
         
         if st.session_state.get('debug_mode', False):
@@ -300,12 +297,12 @@ def show_main_interface(agent, audio):
                 st.write("**Recent LLM Logs**:")
                 for log in st.session_state.llm_logs[-5:]:
                     st.write(log)
-            if st.session_state.is_recording and st.session_state.status not in ["Recording...","Processing...","Responding..."]:
-                st.warning("Recording state is stuck. Try refreshing or clicking 'Clear Session State'.")
+            if st.session_state.is_processing and st.session_state.status not in ["Processing...","Responding..."]:
+                st.warning("Processing state is stuck. Try refreshing or clicking 'Clear Session State'.")
     
     else:
         st.write("#### Text Interaction")
-        # Initialize query_input in session state if not present
+        # Initialize query_input in session state if not set
         if 'query_input' not in st.session_state:
             st.session_state.query_input = ""
         
@@ -337,22 +334,30 @@ def show_main_interface(agent, audio):
     
     st.markdown('</div>', unsafe_allow_html=True)
 
-def record_and_process(agent, audio, status_container):
-    """Record audio for 6 seconds and process in main thread."""
-    logger.debug("Starting record and process")
+def record_and_process(agent, audio, status_container, audio_file, audio_hash):
+    """Process uploaded audio file and generate response."""
+    logger.debug(f"Starting audio file processing with hash: {audio_hash}")
     
     try:
-        devices = sd.query_devices()
-        logger.info(f"Recording - Available audio devices: {devices}")
-        st.session_state.status = "Recording..."
-        status_container.write(f"**Status**: {st.session_state.status}")
-        audio_data = audio.record_audio(duration=6.0)
+        # Save uploaded file temporarily
+        temp_path = f"temp_audio_{datetime.now().strftime('%Y%m%d_%H%M%S')}.wav"
+        with open(temp_path, "wb") as f:
+            f.write(audio_file.read())
+        
+        # Convert to WAV with pydub for faster_whisper
+        sound = pydub.AudioSegment.from_file(temp_path)
+        sound = sound.set_channels(1).set_frame_rate(SAMPLE_RATE)
+        sound.export(temp_path, format="wav")
         
         st.session_state.status = "Processing..."
         status_container.write(f"**Status**: {st.session_state.status}")
-        query = audio.transcribe(audio_data)
+        query = audio.transcribe(temp_path)
         logger.debug(f"Transcribed query: {query}")
         st.session_state.llm_logs.append(f"[{datetime.now().isoformat()}] Transcribed query: {query}")
+        
+        # Clean up temporary file
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
         
         if query.strip():
             try:
@@ -370,13 +375,15 @@ def record_and_process(agent, audio, status_container):
             st.session_state.status = "Responding..."
             status_container.write(f"**Status**: {st.session_state.status}")
             try:
-                logger.info(f"Executing TTS in main thread: {response[:50]}...")
-                tts_success = audio.text_to_speech(response)
-                if tts_success:
+                logger.info(f"Generating TTS: {response[:50]}...")
+                audio_file_path = audio.text_to_speech(response)
+                if audio_file_path:
+                    st.audio(audio_file_path)
+                    tts_success = True
                     st.session_state.llm_logs.append(f"[{datetime.now().isoformat()}] TTS played: {response[:50]}...")
                 else:
-                    st.session_state.llm_logs.append(f"[{datetime.now().isoformat()}] Error: TTS failed - Execution unsuccessful")
-                    st.error("TTS failed. Ensure pyttsx3 is installed correctly.")
+                    st.session_state.llm_logs.append(f"[{datetime.now().isoformat()}] Error: TTS failed - Generation unsuccessful")
+                    st.error("TTS failed. Ensure gTTS is installed correctly.")
             except Exception as e:
                 st.session_state.llm_logs.append(f"[{datetime.now().isoformat()}] Error: TTS failed - {str(e)}")
                 st.error(f"TTS failed: {str(e)}")
@@ -388,26 +395,32 @@ def record_and_process(agent, audio, status_container):
                 "mode": "voice",
                 "tts_played": tts_success
             })
-            # Force rerun to update chat history
+            
+            st.session_state.status = "Idle"
+            status_container.write(f"**Status**: {st.session_state.status}")
+            logger.debug("Transitioned to Idle state")
+            
+            # Clear pending audio and force rerun
+            st.session_state.pending_audio = None
             st.rerun()
         
-        st.session_state.status = "Idle"
-        status_container.write(f"**Status**: {st.session_state.status}")
-        logger.debug("Transitioned to Idle state")
+        else:
+            st.session_state.status = "Idle"
+            status_container.write(f"**Status**: {st.session_state.status}")
+            logger.debug("No valid transcription; transitioned to Idle state")
     
-    except sd.PortAudioError as e:
-        logger.error(f"Microphone error: {str(e)}")
-        st.session_state.status = "Microphone Error"
-        st.error("Microphone error: Ensure microphone is connected and permissions are granted")
-        st.session_state.llm_logs.append(f"[{datetime.now().isoformat()}] Microphone error: {str(e)}")
     except Exception as e:
-        logger.error(f"Recording error: {str(e)}")
+        logger.error(f"Audio processing error: {str(e)}")
         st.session_state.status = "Error"
-        st.error(f"Error: Recording failed - {str(e)}")
-        st.session_state.llm_logs.append(f"[{datetime.now().isoformat()}] Error: Recording failed - {str(e)}")
+        st.error(f"Error: Audio processing failed - {str(e)}")
+        st.session_state.llm_logs.append(f"[{datetime.now().isoformat()}] Error: Audio processing failed - {str(e)}")
     finally:
-        st.session_state.is_recording = False
-        logger.debug("Record and process completed")
+        st.session_state.is_processing = False
+        st.session_state.pending_audio = None
+        # Increment uploader_key to ensure uploader is reset
+        st.session_state.uploader_key += 1
+        logger.debug(f"Final increment of uploader_key to: audio_upload_{st.session_state.uploader_key}")
+        logger.debug("Audio processing completed")
 
 if __name__ == "__main__":
     main()

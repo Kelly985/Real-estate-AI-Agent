@@ -1,0 +1,74 @@
+[
+  {
+    "timestamp": "2025-05-11T12:14:14.188942",
+    "query": "how can i verify documents using current tech on real estate",
+    "response": "Verify real estate documents using blockchain for secure, decentralized records, digital signatures via platforms like DocuSign, and Kenya's online land registry. Use Stampli for local authentication and AI tools for property valuation to ensure accuracy and fairness.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "ada6cdb6-fa96-4d74-aaf3-7a26034fd0e0"
+  },
+  {
+    "timestamp": "2025-05-11T12:14:24.679229",
+    "query": "mention 2 key trends in real-estate",
+    "response": "1. Mixed-use developments are gaining popularity in Kenya, especially in urban areas like Nairobi and Mombasa, as they combine residential, commercial, and recreational spaces, catering to the demand for convenience and efficiency. 2. Affordable housing is on the rise, driven by government initiatives like the Big Four Agenda, with developers focusing on budget-friendly options, particularly in major cities, offering apartments priced between KES 4 million and KES 8 million.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "ada6cdb6-fa96-4d74-aaf3-7a26034fd0e0"
+  },
+  {
+    "timestamp": "2025-05-11T12:14:39.588928",
+    "query": "how can i use ai in real estate, mention 2 ways",
+    "response": "You can use AI in real estate by leveraging AI tools for property valuation to ensure accuracy and fairness, and by utilizing AI-powered chatbots to enhance client interactions and provide 24/7 support.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "ada6cdb6-fa96-4d74-aaf3-7a26034fd0e0"
+  },
+  {
+    "timestamp": "2025-05-11T12:14:46.088940",
+    "query": "is it possible to have a virtual walk through of a property using ai",
+    "response": "Yes, it's possible to have a virtual walkthrough of a property using AI. AI-powered tools create immersive, 360-degree virtual tours, allowing clients to explore properties remotely. This technology is especially useful for out-of-town buyers or those short on time. The cost for such services typically ranges between KES 35,000 and 70,000, depending on the property's size and the provider.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "ada6cdb6-fa96-4d74-aaf3-7a26034fd0e0"
+  },
+  {
+    "timestamp": "2025-05-11T12:14:52.078766",
+    "query": "name one tool i can use to do that",
+    "response": "You can use Matterport to create immersive 360-degree virtual property tours. It leverages AI to generate detailed 3D walkthroughs, enhancing buyer engagement. The cost typically ranges between KES 35,000 and 70,000, depending on the property size and provider.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "ada6cdb6-fa96-4d74-aaf3-7a26034fd0e0"
+  },
+  {
+    "timestamp": "2025-05-11T12:14:57.468596",
+    "query": "who founded matterport",
+    "response": "Matterport was founded by Matt Bell. It's a popular tool for creating immersive 360-degree virtual property tours, enhancing buyer engagement in real estate.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "ada6cdb6-fa96-4d74-aaf3-7a26034fd0e0"
+  },
+  {
+    "timestamp": "2025-05-11T12:15:09.043063",
+    "query": "ok give me tips related to that",
+    "response": "Invest in a high-quality 360-degree camera for crisp visuals. Use AI tools like Matterport to create immersive 3D tours. Stage properties before scanning for better appeal. Include floor plans for added context. Highlight key features during the tour to attract potential buyers. Share virtual tours on your website and social media platforms to maximize reach.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "ada6cdb6-fa96-4d74-aaf3-7a26034fd0e0"
+  },
+  {
+    "timestamp": "2025-05-11T12:15:18.368517",
+    "query": "am looking for a nice cosy house to rent in kenya, am alone and dont really need much space. what kind of house would you recommend",
+    "response": "I recommend a one-bedroom apartment or studio in a safe, convenient area like Kileleshwa or Kilimani in Nairobi. These are perfect for singles, offering comfort without extra space. Expect to pay between KES 35,000 and 70,000 monthly.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "ada6cdb6-fa96-4d74-aaf3-7a26034fd0e0"
+  },
+  {
+    "timestamp": "2025-05-11T12:15:23.208782",
+    "query": "what is the price range",
+    "response": "The price range for a cosy one-bedroom apartment or studio in areas like Kileleshwa or Kilimani, Nairobi, is between KES 35,000 and 70,000 per month. These areas are ideal for singles, offering safety and convenience.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "ada6cdb6-fa96-4d74-aaf3-7a26034fd0e0"
+  }
+]

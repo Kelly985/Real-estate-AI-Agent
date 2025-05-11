@@ -1,0 +1,74 @@
+[
+  {
+    "timestamp": "2025-05-11T13:48:26.223512",
+    "query": "how can i verify documents using current tech on real estate",
+    "response": "I can help with real estate questions.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "c6fe39ec-3f79-4cde-a341-dd253b084cfb"
+  },
+  {
+    "timestamp": "2025-05-11T13:48:40.668588",
+    "query": "mention 2 key trends in real-estate",
+    "response": "Two key trends in Kenya's real estate market are the rise of affordable housing driven by government initiatives and high demand for lower-cost units, and the growth of mixed-use developments combining residential, commercial, and retail spaces, especially in urban areas like Nairobi. These trends cater to evolving buyer preferences and urbanization.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "c6fe39ec-3f79-4cde-a341-dd253b084cfb"
+  },
+  {
+    "timestamp": "2025-05-11T13:48:50.875410",
+    "query": "how can i use ai in real estate, mention 2 ways",
+    "response": "AI can enhance property valuation by analyzing market data and trends to provide accurate price estimates. It can also improve customer service through chatbots, offering 24/7 support and streamlining inquiries.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "c6fe39ec-3f79-4cde-a341-dd253b084cfb"
+  },
+  {
+    "timestamp": "2025-05-11T13:48:56.663397",
+    "query": "is it possible to have a virtual walk through of a property using ai",
+    "response": "Yes, it's possible to have a virtual walk-through of a property using AI. AI-powered tools can create 3D models or virtual tours from photos or videos, allowing buyers to explore properties remotely. This modern approach saves time and enhances the home-buying experience, especially for those unable to visit in person.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "c6fe39ec-3f79-4cde-a341-dd253b084cfb"
+  },
+  {
+    "timestamp": "2025-05-11T13:49:01.707558",
+    "query": "name one tool i can use to do that",
+    "response": "You can use Virtual Walkthrough Pro, a tool that creates 3D models for virtual property tours, costing KES 35,000-70,000 annually.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "c6fe39ec-3f79-4cde-a341-dd253b084cfb"
+  },
+  {
+    "timestamp": "2025-05-11T13:49:07.423402",
+    "query": "who founded matterport",
+    "response": "Matterport was founded in 2011 by Matt Bell and Dave Gausebeck. It's a leading provider of 3D space data and virtual tour solutions, widely used in real estate for immersive property experiences.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "c6fe39ec-3f79-4cde-a341-dd253b084cfb"
+  },
+  {
+    "timestamp": "2025-05-11T13:49:24.367630",
+    "query": "ok give me tips related to that",
+    "response": "1. Invest in high-quality cameras or 360-degree cameras to capture detailed photos for virtual tours. 2. Use AI tools like Matterport or Virtual Walkthrough Pro to create immersive 3D models. 3. Highlight key property features in your virtual tours to attract potential buyers. 4. Budget KES 35,000-70,000 annually for virtual tour software subscriptions.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "c6fe39ec-3f79-4cde-a341-dd253b084cfb"
+  },
+  {
+    "timestamp": "2025-05-11T13:49:32.003332",
+    "query": "am looking for a nice cosy house to rent in kenya, am alone and dont really need much space. what kind of house would you recommend",
+    "response": "I recommend a one-bedroom apartment or a studio in Nairobi, ideal for singles needing less space. Areas like Kileleshwa or Kilimani offer safe, cosy options with amenities nearby. Prices range from KES 25,000-50,000 monthly.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "c6fe39ec-3f79-4cde-a341-dd253b084cfb"
+  },
+  {
+    "timestamp": "2025-05-11T13:49:39.443502",
+    "query": "what is the price range",
+    "response": "Studio apartments in Nairobi, ideal for singles, range from KES 35,000 to 70,000 monthly.",
+    "mode": "text",
+    "feedback": null,
+    "context_id": "c6fe39ec-3f79-4cde-a341-dd253b084cfb"
+  }
+]
