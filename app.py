@@ -11,7 +11,7 @@ import pydub
 import hashlib
 
 os.environ['STREAMLIT_SERVER_PORT'] = os.getenv('PORT', '8501')
-os.environ['STREAMLIT_SERVER_ADDRESS'] = '0.0.0.0
+os.environ['STREAMLIT_SERVER_ADDRESS'] = '0.0.0.0'
 
 # Set up logging
 logging.basicConfig(
