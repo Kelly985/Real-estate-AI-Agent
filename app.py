@@ -1,3 +1,7 @@
+import os
+os.environ['STREAMLIT_SERVER_PORT'] = os.getenv('PORT', '10000')
+os.environ['STREAMLIT_SERVER_ADDRESS'] = '0.0.0.0'
+
 import streamlit as st
 import sys
 import traceback
@@ -6,12 +10,9 @@ from datetime import datetime
 import logging
 from ai_agent import AudioHandler, AIAgent
 import pkg_resources
-import os
 import pydub
 import hashlib
 
-os.environ['STREAMLIT_SERVER_PORT'] = os.getenv('PORT', '8501')
-os.environ['STREAMLIT_SERVER_ADDRESS'] = '0.0.0.0'
 
 # Set up logging
 logging.basicConfig(
